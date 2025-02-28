@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emoji Reaction Test</title>
+    <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+</head>
+<body>
+    <h1>Emoji Reaction Test</h1>
+    <input type="text" id="emojiInput" placeholder="Enter emoji (e.g., 🔥)">
+    <button id="sendButton">Send Emoji</button>
+    <div id="emojiList"></div>
+
+    <script>
+        const socket = io('http://localhost:3000'); // Adjust the port if necessary
+
+        // Listen for new emoji broadcasts
+        socket.on('newEmoji', (data) => {
+            const emojiList = document.getElementById('emojiList');
+            const newEmoji = document.createElement('div');
+            newEmoji.textContent = `New Emoji: ${data.emoji}`;
+            emojiList.appendChild(newEmoji);
+        });
+
+        // Send emoji when button is clicked
+        document.getElementById('sendButton').addEventListener('click', () => {
+            const emojiInput = document.getElementById('emojiInput');
+            const emoji = emojiInput.value;
+            socket.emit('sendEmoji', { emoji });
+            emojiInput.value = ''; // Clear input after sending
+        });
+    </script>
+</body>
+</html>
