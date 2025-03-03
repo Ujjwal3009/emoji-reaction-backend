@@ -10,15 +10,21 @@ RUN apk add --no-cache curl
 # Copy package files
 COPY package*.json ./
 
-# Install dependencies and TypeScript globally
-RUN npm install && \
-    npm install -g typescript
+# Install dependencies
+RUN npm install
 
 # Copy source code
 COPY . .
 
+# Create logs directory with proper permissions
+RUN mkdir -p /app/logs && \
+    chown -R node:node /app/logs
+
 # Build TypeScript
 RUN npm run build
+
+# Switch to non-root user
+USER node
 
 # Add healthcheck with more detailed output
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \

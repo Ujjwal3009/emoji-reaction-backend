@@ -15,7 +15,12 @@
     "express": "^4.17.1",
     "socket.io": "^4.8.1",
     "kafkajs": "^2.2.4",
+<<<<<<< Updated upstream
     "mongodb": "^5.0.0"
+=======
+    "mongodb": "^6.3.0",
+    "winston": "^3.11.0"
+>>>>>>> Stashed changes
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
