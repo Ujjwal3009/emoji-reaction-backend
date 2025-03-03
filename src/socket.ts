@@ -1,16 +1,16 @@
-import { Server } from 'socket.io';
+import { Server, Socket } from 'socket.io';
 
 export const setupSocket = (io: Server) => {
-    io.on('connection', (socket) => {
-        console.log(`Client connected: ${socket.id}`);
+    io.on('connection', (socket: Socket) => {
+        console.log('A user connected');
 
-        socket.on('sendEmoji', (data) => {
-            console.log(`Emoji received: ${data.emoji}`);
-            io.emit('newEmoji', { event: 'newEmoji', emoji: data.emoji });
+        socket.on('emoji-click', (data) => {
+            console.log('Received emoji click:', data);
+            io.emit('emoji-update', data);
         });
 
         socket.on('disconnect', () => {
-            console.log(`Client disconnected: ${socket.id}`);
+            console.log('User disconnected');
         });
     });
 }; 
